@@ -1,0 +1,61 @@
+syntax = "proto3";
+package tunisovereign;
+
+// Track 5 · Tunihara-MedGuard telemetry contract.
+// v2 is backward compatible with the starter: original fields keep their numbers; new fields are appended.
+// Authentication: every RPC requires gRPC metadata  authorization: Bearer <JWT>  (SimpleJWT access token).
+//   StreamTelemetry     -> AGENT_SERVICE only, every packet must carry a valid HMAC-SHA256 signature
+//   TriggerUrgentAudit  -> REGIONAL_AUDITOR (own governorate) | NATIONAL_ADMIN | AGENT_SERVICE
+//   GetInventoryStatus  -> any authenticated role, restricted to the caller's facility/governorate scope
+service TelemetryIngestService {
+  rpc StreamTelemetry (stream TelemetryPacket) returns (IngestAck);
+  rpc TriggerUrgentAudit (AuditRequest) returns (AuditResponse);
+  rpc GetInventoryStatus (InventoryRequest) returns (InventoryStatus);
+}
+
+message TelemetryPacket {
+  string node_code = 1;        // MedicationInventory.node_code, e.g. "KAS-PHA-01-A10BA02"
+  string governorate = 2;      // canonical code, e.g. "Sidi_Bouzid"
+  string metric_type = 3;      // STOCK_LEVEL | DISPENSED_UNITS | CONSUMPTION_RATE | RX_COUNT | COLD_CHAIN_TEMP
+  double value = 4;
+  string iso_timestamp = 5;    // timezone-aware ISO-8601
+  string signature_hmac = 6;   // hex HMAC-SHA256 over node|governorate|metric|value(.4f)|timestamp
+  string unit = 7;             // informational ("boxes", "C")
+  bool is_simulated = 8;       // provenance flag; the simulator always sets true
+}
+
+message IngestAck {
+  int32 accepted_count = 1;
+  bool anomaly_triggered = 2;      // always false in Week 1 (scoring arrives in Week 2)
+  string agent_thread_id = 3;      // always empty in Week 1 (agent arrives in Week 3)
+  int32 rejected_count = 4;
+  int32 duplicate_count = 5;
+  repeated string rejected_reasons = 6;   // "<packet index>:<CODE>", capped at 50
+}
+
+message AuditRequest {
+  string node_code = 1;
+  string reason = 2;
+}
+
+message AuditResponse {
+  string status = 1;           // "AUDIT_REQUEST_RECORDED" in Week 1 (no agent, no chain)
+  string tx_hash = 2;          // empty in Week 1: no blockchain transaction exists yet
+  string audit_event_id = 3;
+}
+
+message InventoryRequest {
+  string node_code = 1;
+}
+
+message InventoryStatus {
+  string node_code = 1;
+  string facility_code = 2;
+  string governorate = 3;
+  string medication = 4;
+  double current_stock_units = 5;
+  double reorder_threshold_units = 6;
+  bool below_reorder_threshold = 7;
+  string last_reading_iso = 8;
+  bool is_simulated = 9;
+}

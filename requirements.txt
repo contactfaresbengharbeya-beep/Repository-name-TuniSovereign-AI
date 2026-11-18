@@ -1,0 +1,18 @@
+# Week 1 (Django 6 core, DRF, JWT, GraphQL, gRPC, PostgreSQL driver, Redis, tests)
+-r requirements/week1.txt
+
+# Weeks 2-4 (kept from the starter template; NOT used by Week 1 code, not yet verified with Django 6)
+channels>=4.1.0
+channels-redis>=4.2.0
+scikit-learn>=1.5.2
+numpy>=1.26.4
+pandas>=2.2.3
+langgraph>=0.2.35
+langchain-core>=0.3.10
+mcp>=1.1.0
+pydantic>=2.9.2
+web3>=7.3.0
+py-solc-x>=2.0.3
+streamlit>=1.39.0
+plotly>=5.24.1
+requests>=2.32.3

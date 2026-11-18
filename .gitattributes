@@ -1,0 +1,15 @@
+# Normalise line endings in the repository (LF); working-tree conversion follows the OS.
+* text=auto eol=lf
+
+# Files that must stay as-is
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.pdf binary
+*.zip binary
+*.mp4 binary
+
+# Generated gRPC stubs: do not show noisy diffs; regenerate with scripts/gen_proto.py
+grpc_service/tunisovereign_pb2.py linguist-generated=true
+grpc_service/tunisovereign_pb2_grpc.py linguist-generated=true

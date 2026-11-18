@@ -1,0 +1,92 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Environment variables & secrets  (only .env.example, with placeholders, is tracked)
+.env
+.env.*
+!.env.example
+*.env.local
+.envrc
+
+# Keys, certificates and credentials — never commit
+*.pem
+*.key
+*.crt
+*.csr
+*.p12
+*.pfx
+*.jks
+id_rsa*
+id_ed25519*
+*.keystore
+secrets/
+credentials*.json
+service-account*.json
+*.secret
+
+# Django / local databases / dumps / media
+*.log
+logs/
+db.sqlite3
+*.sqlite3
+*.sqlite3-journal
+*.db
+*.sql
+*.sql.gz
+*.dump
+*.pgdump
+*.bak
+media/
+staticfiles/
+local_settings.py
+
+# Foundry / Solidity artifacts
+cache/
+out/
+broadcast/
+node_modules/
+
+# Test / coverage / tooling caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+.tox/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+*.egg-info/
+build/
+dist/
+
+# Docker local overrides
+docker-compose.override.yml
+
+# Streamlit / notebooks / temp
+.streamlit/secrets.toml
+.ipynb_checkpoints/
+*.tmp
+*.temp
+tmp/
+
+# OS & IDE files
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+*~
+
+# Claude Code local session files
+.claude/
